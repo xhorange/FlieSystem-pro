@@ -26,7 +26,7 @@ public class FCB implements Serializable {
 	public int CreateID=0;//创建者ID
 	public int Authority=64;//权限模仿linux简化，2为写权限，4为读权限，第一位表示创建者权限，第二位表示其他用户权限
 	public FCB(String filename, int fatherBlockId, FILE_TYPE type, int size,
-			int dataStartBlockId, int blockId) {
+			int dataStartBlockId, int blockId,int createID) {
 		this.filename = filename;
 		this.fatherBlockId = fatherBlockId;
 		this.type = type;
@@ -35,5 +35,7 @@ public class FCB implements Serializable {
 		this.updatedDate = (Date) this.createdDate.clone();
 		this.dataStartBlockId = dataStartBlockId;
 		this.blockId = blockId;
+		this.CreateID=createID;
+		this.Authority=64;
 	}
 }

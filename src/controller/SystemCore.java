@@ -72,7 +72,7 @@ public class SystemCore {
 		if (fcbBlockStart != 0 && fileDataBlockStart != 0) {
 			FCB fcb = new FCB(filename, this.currentDirFCB.blockId,
 					Config.FILE_TYPE.FILE, Config.FILE_MAX_BLOCKS,
-					fileDataBlockStart, fcbBlockStart);
+					fileDataBlockStart, fcbBlockStart,MainController.creatID);
 
 			// 申请分配空间
 			this.diskManager.alloc(fcbBlockStart, 1);
@@ -168,7 +168,7 @@ public class SystemCore {
 		if (fcbBlockStart != 0 && fileDataBlockStart != 0) {
 			FCB dirFcb = new FCB(filename, this.currentDirFCB.blockId,
 					Config.FILE_TYPE.DIRECTORY, Config.FILE_MAX_BLOCKS,
-					fileDataBlockStart, fcbBlockStart);
+					fileDataBlockStart, fcbBlockStart,MainController.creatID);
 			FCB[] dir = new FCB[40];
 
 			// 申请分配空间

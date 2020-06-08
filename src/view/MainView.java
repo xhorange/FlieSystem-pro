@@ -28,8 +28,8 @@ public class MainView extends JFrame {
 	public JTextField addressTextField;
 	public JButton goButton;
 	public JPanel contentPanel;
-	final private JComboBox<String> comboBox=new JComboBox<String>(new String[]{"管理员", "用户1", "用户2", "用户3"});
-
+	final public JComboBox<String> comboBox=new JComboBox<String>(new String[]{"管理员", "用户1", "用户2", "用户3"});
+	public JButton changeButton;
 	// Constructor
 	public MainView(FCB[] fcbDir) {
 		super();
@@ -88,6 +88,8 @@ public class MainView extends JFrame {
 		menuBar.add(fileSystemMenu);
 		menuBar.add(aboutMenu);
 		menuBar.add(comboBox);
+		changeButton=new JButton("切换");
+		menuBar.add(changeButton);
 
 		// Add Components
 		this.setJMenuBar(menuBar);
@@ -98,7 +100,7 @@ public class MainView extends JFrame {
 		JPanel toolPanel = new JPanel();
 
 		// for debug
-		toolPanel.setBackground(Color.BLACK);
+		toolPanel.setBackground(Color.orange);
 
 		// Set Layout
 		toolPanel.setLayout(new BoxLayout(toolPanel, BoxLayout.X_AXIS));
@@ -201,6 +203,9 @@ public class MainView extends JFrame {
 
 	public void addGoButtonActionListener(ActionListener actionListener) {
 		this.goButton.addActionListener(actionListener);
+	}
+	public void addchangeButtonActionListener(ActionListener actionListener) {
+		this.changeButton.addActionListener(actionListener);
 	}
 
 	public void addDocumentIconPanelMouseListener(

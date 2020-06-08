@@ -33,6 +33,8 @@ public class MainController {
 
 	private SystemCore systemCore;
 
+	public static int creatID=0;
+
 	/**
 	 * 构造函数
 	 */
@@ -65,6 +67,9 @@ public class MainController {
 
 		// 添加关闭事件监听
 		this.view.addWindowListener(this.mainWindowListener);
+
+		//添加切换用户监听
+		this.view.addchangeButtonActionListener(this.changeButtonActionListener);
 
 		this.configureContentPanel();
 
@@ -290,7 +295,7 @@ public class MainController {
 			// 获取文件名
 			String filename = (String) JOptionPane.showInputDialog(
 					MainController.this.view,
-					"Please enter your new file's name:", "New file",
+					"请输入新文件名:", "新建文件",
 					JOptionPane.INFORMATION_MESSAGE);
 
 			if (filename == null) {
@@ -811,4 +816,16 @@ public class MainController {
 		this.view
 				.addDocumentIconPanelMouseListener(this.documentIconPanelMouseListener);
 	}
+	/**
+	 * 切换用户的按钮监听
+	 */
+	private ActionListener changeButtonActionListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+				creatID=MainController.this.view.comboBox.getSelectedIndex();
+				System.out.println("creatID is changed to"+creatID);
+		}
+	};
+
 }

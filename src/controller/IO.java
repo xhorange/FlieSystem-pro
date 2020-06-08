@@ -77,7 +77,7 @@ public class IO {
 		String rootDirJSON = gson.toJson(rootDir);
 
 		FCB rootDirFCB = new FCB("root", -1, Config.FILE_TYPE.DIRECTORY,
-				Config.FILE_MAX_BLOCKS, Config.SYS_BLOCK_COUNT, 2);
+				Config.FILE_MAX_BLOCKS, Config.SYS_BLOCK_COUNT, 2,0);
 		String rootDirFCBJSON = gson.toJson(rootDirFCB);
 		
 		// 保存根目录FCB以及根目录目录文件

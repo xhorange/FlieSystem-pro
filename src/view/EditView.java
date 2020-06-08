@@ -17,7 +17,7 @@ import model.sys.FCB;
 // TODO - layout views
 public class EditView extends JFrame implements DocumentListener {
 
-	private static final long serialVersionUID = 5359647733388619559L;
+	//private static final long serialVersionUID = 5359647733388619559L;
 	private JTextPane textPane;
 
 	private FCB dataFCB;
