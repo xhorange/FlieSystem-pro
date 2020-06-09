@@ -29,11 +29,11 @@ import com.google.gson.Gson;
  */
 public class MainController {
 
-	private MainView view;
+	public MainView view;
 
 	private SystemCore systemCore;
 
-	public static int creatID=0;
+	public static int currentID =0;
 
 	/**
 	 * 构造函数
@@ -100,6 +100,10 @@ public class MainController {
 	 */
 	private void showEditView(FCB fcb) {
 		// 弹出Edit View，根据FCB加载
+		if(currentID!=fcb.CreateID&&(fcb.Authority%10)==0){
+			JOptionPane.showMessageDialog(MainController.this.view,"权限不足无法打开");
+			return;
+		}
 		EditView editView = new EditView(fcb,
 				MainController.this.systemCore.readFile(fcb));
 
@@ -823,8 +827,8 @@ public class MainController {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-				creatID=MainController.this.view.comboBox.getSelectedIndex();
-				System.out.println("creatID is changed to"+creatID);
+				currentID =MainController.this.view.comboBox.getSelectedIndex();
+				System.out.println("creatID is changed to"+ currentID);
 		}
 	};
 

@@ -4,14 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JTextPane;
+import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import controller.MainController;
 import model.sys.FCB;
 
 // TODO - layout views
@@ -82,11 +79,52 @@ public class EditView extends JFrame implements DocumentListener {
 		// Add Components
 		this.setJMenuBar(menuBar);
 	}
-
+	/**
+	 * 权限选择，管理员对于所有都可编辑，创建者需要根据自己的权限做出判定
+	 */
 	private void configureTextPane(String content) {
-		this.textPane.setText(content);
-		this.textPane.getDocument().addDocumentListener(this);
-		this.add(this.textPane, BorderLayout.CENTER);
+		int user= MainController.currentID;
+		int creat_Authority=(this.dataFCB.Authority%100)/10;
+		int user_Authority=this.dataFCB.Authority%10;
+		if(user==0){
+			System.out.println("管理员打开");
+			this.textPane.setText(content);
+			this.textPane.getDocument().addDocumentListener(this);
+			this.add(this.textPane, BorderLayout.CENTER);
+		}
+		else if(user==this.dataFCB.CreateID){
+			System.out.println("文件所有者打开,权限"+creat_Authority);
+			if(creat_Authority==6){
+				this.textPane.setText(content);
+				this.textPane.getDocument().addDocumentListener(this);
+				this.add(this.textPane, BorderLayout.CENTER);
+			}
+			else if(creat_Authority==4){
+				this.textPane.setText(content);
+				this.textPane.getDocument().addDocumentListener(this);
+				this.textPane.setEnabled(false);
+				this.add(this.textPane, BorderLayout.CENTER);
+
+			}
+		}
+		else if(user!=this.dataFCB.CreateID){
+			System.out.println("其他用户打开,权限"+user_Authority);
+			if(user_Authority==6){
+				this.textPane.setText(content);
+				this.textPane.getDocument().addDocumentListener(this);
+				this.add(this.textPane, BorderLayout.CENTER);
+			}
+			else if(user_Authority==4){
+				this.textPane.setText(content);
+				this.textPane.getDocument().addDocumentListener(this);
+				this.textPane.setEnabled(false);
+				this.add(this.textPane, BorderLayout.CENTER);
+
+			}
+		}
+
+
+
 	}
 
 	/**
