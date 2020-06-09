@@ -8,3 +8,5 @@ editview中configureTextPane(String content)，没有增加0权限，表示不�
 						System.out.println("权限不足");
 						JOptionPane.showMessageDialog(MainController.this.view,"权限不足");
 					}else {
+					}
+用户可以修改自己的权限，管理员拥有所有权限

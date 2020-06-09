@@ -38,7 +38,7 @@ public class EditView extends JFrame implements DocumentListener {
 
 	// UI Method
 	private void configureJFrame() {
-		this.setTitle(this.dataFCB.filename + " - 可编辑");// Set title
+		//this.setTitle(this.dataFCB.filename + " - 可编辑");// Set title
 		this.setSize(Config.WINDOW_WIDTH, Config.WINDOW_HEIGHT);// Set size of
 																// window
 		this.setResizable(false);// Can't change the size
@@ -87,6 +87,7 @@ public class EditView extends JFrame implements DocumentListener {
 		int creat_Authority=(this.dataFCB.Authority%100)/10;
 		int user_Authority=this.dataFCB.Authority%10;
 		if(user==0){
+			this.setTitle(this.dataFCB.filename + " - 可编辑");
 			System.out.println("管理员打开");
 			this.textPane.setText(content);
 			this.textPane.getDocument().addDocumentListener(this);
@@ -95,11 +96,13 @@ public class EditView extends JFrame implements DocumentListener {
 		else if(user==this.dataFCB.CreateID){
 			System.out.println("文件所有者打开,权限"+creat_Authority);
 			if(creat_Authority==6){
+				this.setTitle(this.dataFCB.filename + " - 可编辑");
 				this.textPane.setText(content);
 				this.textPane.getDocument().addDocumentListener(this);
 				this.add(this.textPane, BorderLayout.CENTER);
 			}
 			else if(creat_Authority==4){
+				this.setTitle(this.dataFCB.filename + " - 不可编辑");
 				this.textPane.setText(content);
 				this.textPane.getDocument().addDocumentListener(this);
 				this.textPane.setEnabled(false);
@@ -115,6 +118,7 @@ public class EditView extends JFrame implements DocumentListener {
 				this.add(this.textPane, BorderLayout.CENTER);
 			}
 			else if(user_Authority==4){
+				this.setTitle(this.dataFCB.filename + " - 不可编辑");
 				this.textPane.setText(content);
 				this.textPane.getDocument().addDocumentListener(this);
 				this.textPane.setEnabled(false);

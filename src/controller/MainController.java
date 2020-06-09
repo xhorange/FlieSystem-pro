@@ -7,8 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.*;
 
@@ -122,12 +120,14 @@ public class MainController {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			// Deselect documents
+			FCB currentFCB=MainController.this.systemCore.currentDirFCB;
 			if (e.getButton() == MouseEvent.BUTTON1) {
 				MainController.this.view.deselectDocuments();
 			}
 
 			// Popup menu
 			if (e.getButton() == MouseEvent.BUTTON3) {
+
 				boolean isRoot = (MainController.this.systemCore.currentDirFCB.fatherBlockId == -1);
 
 				JPopupMenu menu = new JPopupMenu();
@@ -146,7 +146,7 @@ public class MainController {
 						.addActionListener(MainController.this.newFolderActionListener);
 				menu.add(newFolderMenu);
 
-				if (isRoot) {
+				if (isRoot&&currentID==0) {
 					menu.addSeparator();
 
 					JMenuItem formatMenu = new JMenuItem("格式化");
@@ -154,9 +154,16 @@ public class MainController {
 							.addActionListener(MainController.this.formatMenuActionListener);
 					menu.add(formatMenu);
 				}
+				if(!isRoot){
+					if(MainController.currentID!=0&&((MainController.currentID!=currentFCB.CreateID&&currentFCB.Authority%10<=4)||currentFCB.Authority/10<=4)){
+						newFileMenu.setEnabled(false);
+						newFolderMenu.setEnabled(false);
+					}
+				}
 
 				menu.show(e.getComponent(), e.getX(), e.getY());
 			}
+
 		}
 
 		@Override
@@ -232,6 +239,9 @@ public class MainController {
 					editMenuItem
 							.addActionListener(MainController.this.editMenuActionListener);
 					documentMenu.add(editMenuItem);
+					if(MainController.currentID!=0&&((MainController.currentID!=fcb.CreateID&&fcb.Authority%10<=4)||fcb.Authority/10<=4)){
+						editMenuItem.setEnabled(false);
+					}
 				}
 
 				JMenuItem renameMenuItem = new JMenuItem("重命名",
@@ -246,9 +256,6 @@ public class MainController {
 				changeAuthorityMeunItem.
 						addActionListener(MainController.this.changeAuthorityMeunItem);
 				documentMenu.add(changeAuthorityMeunItem);
-
-
-
 
 				documentMenu.addSeparator();
 
@@ -266,7 +273,12 @@ public class MainController {
 				getInfoMenuItem
 						.addActionListener(MainController.this.getInfoMenuActionListener);
 				documentMenu.add(getInfoMenuItem);
-
+				//判断权限
+				if(MainController.currentID!=0&&((MainController.currentID!=fcb.CreateID&&fcb.Authority%10<=4)||fcb.Authority/10<=4)){
+					deleteMenuItem.setEnabled(false);
+					changeAuthorityMeunItem.setEnabled(false);
+					renameMenuItem.setEnabled(false);
+				}
 				documentMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		}
@@ -880,6 +892,7 @@ public class MainController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 				currentID =MainController.this.view.comboBox.getSelectedIndex();
+				MainController.this.refreshView();
 				System.out.println("creatID is changed to"+ currentID);
 		}
 	};

@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.*;
 
+import controller.MainController;
 import model.sys.FCB;
 
 /**
@@ -233,11 +234,14 @@ public class MainView extends JFrame {
 			if (fcbDir[i] == null) {
 				break;
 			}
+			if (fcbDir[i].CreateID== MainController.currentID||fcbDir[i].Authority%10>0||MainController.currentID==0){//权限判定
+				DocumentIconPanel t = new DocumentIconPanel(fcbDir[i].type,
+						fcbDir[i].filename);
+				this.contentPanel.add(t);
+			}
 
-			DocumentIconPanel t = new DocumentIconPanel(fcbDir[i].type,
-					fcbDir[i].filename);
 
-			this.contentPanel.add(t);
+
 		}
 
 		this.contentPanel.repaint();
