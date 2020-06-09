@@ -7,12 +7,10 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 
 import model.sys.Config.FILE_TYPE;
 import model.sys.FCB;
@@ -112,6 +110,7 @@ public class MainController {
 
 		// 显示Edit View
 		editView.setVisible(true);
+
 	}
 
 	// Listener
@@ -181,7 +180,6 @@ public class MainController {
 		}
 
 	};
-
 	/**
 	 * 图标点击监听，包括单击选中，双击打开，右键弹出菜单
 	 */
@@ -204,10 +202,10 @@ public class MainController {
 				if (d.getType() == FILE_TYPE.DIRECTORY) {
 					// 双击文件夹
 					// model进入下一级文件夹
-					MainController.this.systemCore.enterDir(d.getFilename());
+						MainController.this.systemCore.enterDir(d.getFilename());
+						// 重绘view
+						MainController.this.refreshView();
 
-					// 重绘view
-					MainController.this.refreshView();
 
 				} else {
 					// 双击文件
@@ -242,6 +240,13 @@ public class MainController {
 				renameMenuItem
 						.addActionListener(MainController.this.renameMenuActionListener);
 				documentMenu.add(renameMenuItem);
+
+				JMenuItem changeAuthorityMeunItem=new JMenuItem("修改权限");
+				MainController.this.changeAuthorityMeunItem.fcb=fcb;
+				changeAuthorityMeunItem.
+						addActionListener(MainController.this.changeAuthorityMeunItem);
+				documentMenu.add(changeAuthorityMeunItem);
+
 
 
 
@@ -518,6 +523,52 @@ public class MainController {
 		}
 
 	};
+	/**
+	 * "修改权限"按钮按键监听
+	 */
+	private CustomActionListener changeAuthorityMeunItem=new CustomActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// 获取新的权限
+			if(MainController.currentID==this.fcb.CreateID||MainController.currentID==0){
+				String Authority = (String) JOptionPane.showInputDialog(
+						MainController.this.view, "新的权限", "修改权限",
+						JOptionPane.INFORMATION_MESSAGE, null, null,
+						this.fcb.Authority);
+
+				if (Authority == null) {
+					// 用户取消
+					return;
+				}
+
+				// 不允许权限为空，默认为64
+				while (Authority.equals("")) {
+					Authority="64";
+
+				}
+
+				this.fcb.Authority = Integer.parseInt(Authority);
+
+				Gson gson = new Gson();
+
+				// 更新文件FCB
+				MainController.this.systemCore.updateFCB(this.fcb);
+
+				// 更新当前目录的目录文件
+				MainController.this.systemCore.updateFile(
+						MainController.this.systemCore.currentDirFCB,
+						gson.toJson(MainController.this.systemCore.currentDir));
+
+				// 刷新界面
+				MainController.this.refreshView();
+			}
+			else{
+				JOptionPane.showMessageDialog(MainController.this.view,"权限不足");
+			}
+
+		}
+
+	};
 
 	/**
 	 * "格式化"按钮按键监听
@@ -544,6 +595,7 @@ public class MainController {
 		}
 
 	};
+
 
 	/**
 	 * "属性"按钮按键监听

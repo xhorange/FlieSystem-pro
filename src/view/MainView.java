@@ -17,7 +17,7 @@ import model.sys.FCB;
 
 /**
  * 
- * @author Tom Hu
+ * @author eason yang
  * 
  */
 public class MainView extends JFrame {
@@ -47,6 +47,7 @@ public class MainView extends JFrame {
 
 		// Main View
 		this.configureJFrame();
+		this.setIconImage(new ImageIcon("resource/titleIcon.png").getImage());
 	}
 
 	// UI Method
@@ -100,7 +101,7 @@ public class MainView extends JFrame {
 		JPanel toolPanel = new JPanel();
 
 		// for debug
-		toolPanel.setBackground(Color.orange);
+		toolPanel.setBackground(Color.WHITE);
 
 		// Set Layout
 		toolPanel.setLayout(new BoxLayout(toolPanel, BoxLayout.X_AXIS));
